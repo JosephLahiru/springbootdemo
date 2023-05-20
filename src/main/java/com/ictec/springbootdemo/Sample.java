@@ -8,6 +8,6 @@ public class Sample {
     public static void main(String[] args) {
         UUID uuid = Generators.timeBasedGenerator().generate();
 
-        System.out.println(uuid.toString());
+        System.out.println("UUID: " + uuid.toString());
     }
 }
