@@ -1,22 +1,29 @@
 package com.ictec.buisness.controllers;
 
 import com.ictec.buisness.httpentities.Address;
-import com.ictec.buisness.httpentities.Buisness;
+import com.ictec.buisness.httpentities.Business;
 import com.ictec.buisness.httpentities.Location;
+import com.ictec.buisness.repo.BusinessRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/api")
 public class BusinessApi {
+
+    @Autowired
+    private BusinessRepo repo;
+
     @GetMapping("/show_business")
-    public ResponseEntity<Buisness> showBusiness(){
-        Buisness b = new Buisness();
+    public ResponseEntity<Business> showBusiness(){
+        Business b = new Business();
         b.setName("Mtron");
         b.setPhone_number("+1345627378");
 
@@ -39,7 +46,35 @@ public class BusinessApi {
     }
 
     @PostMapping("/business")
-    public ResponseEntity<Buisness> saveBusiness(@RequestBody Buisness b){
+    public ResponseEntity<Business> saveBusiness(@RequestBody Business b){
+        b = this.repo.save(b);
         return ResponseEntity.ok().body(b);
+    }
+
+    @GetMapping("/business")
+    public ResponseEntity<List<Business>> saveBusiness(){
+        List<Business> all = repo.findAll();
+        return ResponseEntity.ok().body(all);
+    }
+
+    @GetMapping("/business/{id}")
+    public ResponseEntity<Optional<Business>> findBusiness(@PathVariable Long id){
+        Optional<Business> b = this.repo.findById(id);
+        return ResponseEntity.ok().body(b);
+    }
+
+    @DeleteMapping("/business/{id}")
+    public ResponseEntity<Optional<Business>> deleteBusiness(@PathVariable Long id){
+        if(repo.existsById(id)) {
+            this.repo.deleteById(id);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.status(400).build();
+    }
+
+    @GetMapping("/business/name/{end}")
+    public ResponseEntity<List<Business>> findNameBusiness(@PathVariable String end) {
+        List<Business> businessesWithEnd = repo.findByNameEndsWith(end);
+        return ResponseEntity.ok().body(businessesWithEnd);
     }
 }
