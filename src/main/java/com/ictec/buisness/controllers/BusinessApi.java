@@ -4,6 +4,7 @@ import com.ictec.buisness.httpentities.Address;
 import com.ictec.buisness.httpentities.Business;
 import com.ictec.buisness.httpentities.Location;
 import com.ictec.buisness.repo.BusinessRepo;
+import com.ictec.buisness.services.BusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,9 @@ public class BusinessApi {
 
     @Autowired
     private BusinessRepo repo;
+
+    @Autowired
+    private BusinessService businessService;
 
     @GetMapping("/show_business")
     public ResponseEntity<Business> showBusiness(){
@@ -47,12 +51,12 @@ public class BusinessApi {
 
     @PostMapping("/business")
     public ResponseEntity<Business> saveBusiness(@RequestBody Business b){
-        b = this.repo.save(b);
+        b = this.businessService.handleRegistration(b);
         return ResponseEntity.ok().body(b);
     }
 
     @GetMapping("/business")
-    public ResponseEntity<List<Business>> saveBusiness(){
+    public ResponseEntity<List<Business>> getAllBusiness(){
         List<Business> all = repo.findAll();
         return ResponseEntity.ok().body(all);
     }
