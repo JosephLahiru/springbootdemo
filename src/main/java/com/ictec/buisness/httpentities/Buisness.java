@@ -1,6 +1,14 @@
 package com.ictec.buisness.httpentities;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
+@Entity
 public class Buisness {
+    @Id
+    @GeneratedValue
+    private Long id;
     private String name;
     private String phone_number;
     private Address address;
@@ -36,6 +44,14 @@ public class Buisness {
 
     public void setLocation(Location location) {
         this.location = location;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
     }
 }
 
