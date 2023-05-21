@@ -1,17 +1,17 @@
 package com.ictec.buisness.httpentities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
-public class Buisness {
+public class Business {
     @Id
     @GeneratedValue
     private Long id;
     private String name;
     private String phone_number;
+    @OneToOne(cascade = {CascadeType.ALL})
     private Address address;
+    @OneToOne(cascade = {CascadeType.ALL})
     private Location location;
 
     public String getName() {
