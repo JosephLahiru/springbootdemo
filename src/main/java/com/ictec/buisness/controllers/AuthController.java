@@ -1,7 +1,7 @@
 package com.ictec.buisness.controllers;
 
 import com.ictec.buisness.httpentities.Address;
-import com.ictec.buisness.httpentities.Buisness;
+import com.ictec.buisness.httpentities.Business;
 import com.ictec.buisness.httpentities.Location;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.Locale;
-
 @Controller
 public class AuthController {
     @RequestMapping(method = RequestMethod.POST, path = "/add_business")
-    public ResponseEntity<String> addBuisness(@RequestBody Buisness b){
+    public ResponseEntity<String> addBuisness(@RequestBody Business b){
         String businessDetails = "Name: " + b.getName() +
                 "\nPhone Number: " + b.getPhone_number() +
                 "\nAddress: " + b.getAddress().getLine1() + ", " +
@@ -28,8 +26,8 @@ public class AuthController {
     }
 
     @GetMapping("/show_business")
-    public ResponseEntity<Buisness> showBusiness(){
-        Buisness b = new Buisness();
+    public ResponseEntity<Business> showBusiness(){
+        Business b = new Business();
         b.setName("Mtron");
         b.setPhone_number("+1345627378");
 
